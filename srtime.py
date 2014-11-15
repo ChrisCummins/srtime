@@ -30,6 +30,13 @@ def version_and_quit(*data):
     print("Copyright (c) 2014 Chris Cummins")
     sys.exit(0)
 
+# Flush system caches on a Linux operating system. Note that this
+# requires root privileges, which may result in a password prompt for
+# users which have not removed the prompts in their sudoers file.
+def flush_system_caches():
+    log.info("Flushing system caches")
+    os.system('sudo sync && echo "echo 3 > /proc/sys/vm/drop_caches" | sudo sh')
+
 class OptionParser(optparse.OptionParser):
     def __init__(self):
         optparse.OptionParser.__init__(self)
@@ -58,6 +65,8 @@ class OptionParser(optparse.OptionParser):
                         dest="confidence", default=0.05)
         self.add_option("-g", "--graph", action="store_true",
                         dest="graph", default=False)
+        self.add_option("-F", "--flush-cache", action="store_true",
+                        dest="flush_caches", default=False)
 
 class Results:
     def __init__(self, options):
@@ -173,6 +182,10 @@ class Process:
         cmd += "2>&1 | tee {0}".format(tmpfile)
 
         log.info("Command: {0}".format(cmd))
+
+        # Flush the system caches prior to executing the command:
+        if options.flush_caches:
+            flush_system_caches()
 
         # Execute the command:
         start = datetime.now()
