@@ -76,6 +76,9 @@ class Results:
     def max(self):
         return max(self._results)
 
+    def range(self):
+        return self.max() - self.min()
+
     def variance(self):
         differences = []
         mean = self.mean()
@@ -111,6 +114,7 @@ class Results:
                 ("c2", self.confidence()[1]),
                 ("minimum", self.min()),
                 ("maximum", self.max()),
+                ("range", self.range()),
                 ("variance", self.variance()),
                 ("n", self.n())]
 
