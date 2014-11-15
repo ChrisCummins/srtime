@@ -10,6 +10,7 @@ import scipy.stats
 import math
 import os
 from datetime import datetime
+import matplotlib.pyplot as plt
 
 # Exception thrown for an invalid command line parameter value.
 class InvalidParameterException(Exception):
@@ -55,6 +56,8 @@ class OptionParser(optparse.OptionParser):
                         dest="precision", default=3)
         self.add_option("-c", "--confidence", action="store", type="float",
                         dest="confidence", default=0.05)
+        self.add_option("-g", "--graph", action="store_true",
+                        dest="graph", default=False)
 
 class Results:
     def __init__(self, options):
@@ -63,6 +66,10 @@ class Results:
 
     def append(self, time):
         self._results.append(time)
+
+    # Return the raw array of execution times:
+    def times(self):
+        return self._results
 
     def n(self):
         return len(self._results)
@@ -241,6 +248,19 @@ class SRTime:
     def results(self):
         return self._results
 
+# Plot and show a graph of the results for the given command.
+def graph(results, command):
+    title = ""
+    for c in command:
+        title += c + " "
+
+    plt.plot(range(1, results.n() + 1), results.times())
+    plt.suptitle(title, fontsize=16)
+    plt.xlabel('Iteration')
+    plt.ylabel('Execution time (ms)')
+    plt.xlim(1, results.n())
+    plt.show()
+
 def main(argc, argv):
     # Get arguments from command line:
     parser = OptionParser()
@@ -254,10 +274,14 @@ def main(argc, argv):
 
     try:
         # Run timer:
-        t = SRTime(args, options)
+        results = SRTime(args, options).results()
 
         # Print results:
-        print(t.results().fmt(options.fmt))
+        print(results.fmt(options.fmt))
+
+        # Graph results:
+        if options.graph:
+            graph(results, args)
     except InvalidParameterException as err:
         print(err)
         return 1
