@@ -45,8 +45,10 @@ class OptionParser(optparse.OptionParser):
                         dest="input", default=False)
         self.add_option("-f", "--format", action="store", type="string",
                         dest="fmt", default="min")
-        self.add_option("-n", "--number", action="store", type="int",
-                        dest="number", default=10)
+        self.add_option("-m", "--min-iterations", action="store", type="int",
+                        dest="min_iterations", default=5)
+        self.add_option("-t", "--target-time", action="store", type="int",
+                        dest="target_time", default=10)
         self.add_option("-N", "--threshold", action="store", type="int",
                         dest="threshold", default=30)
         self.add_option("-p", "--precision", action="store", type="int",
@@ -201,9 +203,36 @@ class SRTime:
         self.run()
 
     def run(self):
-        for i in range(self._options.number):
-            log.info("Starting iteration. n = {0}".format(i + 1))
-            self._results.append(Process(self._command, self._options).time())
+        # Perform first trial run:
+        p = Process(self._command, self._options).time()
+
+        # Counters:
+        i, elapsed_time, avg_p = 0, 0, 0
+
+        # The target amount of time to run for (in ms):
+        target_time = self._options.target_time * 1000
+        # The minimum number of iterations to run:
+        min_iterations = self._options.min_iterations
+
+        # Keep running the command while there is time left, or until
+        # we have executed the minimum number of iterations:
+        while elapsed_time < target_time - avg_p or i < min_iterations:
+
+            # Logging:
+            t_exp = round(avg_p / 1000, 2)
+            t_rem = round((target_time - elapsed_time) / 1000, 1)
+            log.info("Time remaining: {0}s. Average execution time: {1}s. "
+                     "Starting iteration. n = {2}."
+                     .format(t_rem, t_exp, i + 1))
+
+            # Run the command:
+            p = Process(self._command, self._options).time()
+            self._results.append(p)
+
+            # Update the counters:
+            elapsed_time += p
+            i += 1
+            avg_p = self._results.mean()
 
     def results(self):
         return self._results
