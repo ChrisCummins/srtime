@@ -11,4 +11,9 @@ setup(name='srtime',
       scripts=['bin/srtime'],
       test_suite='nose.collector',
       tests_require=['nose'],
+      install_requires=[
+          'matplotlib',
+          'pexpect',
+          'scipy'
+      ],
       zip_safe=False)
