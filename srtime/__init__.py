@@ -43,7 +43,7 @@ def main(argc, argv):
         # Graph results:
         if args.graph:
             graph(results, args.command)
-    except (InvalidParameterException,ProcessException) as err:
+    except Exception as err:
         print(err)
         return 1
 
