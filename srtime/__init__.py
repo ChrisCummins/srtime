@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import sys
 import optparse
 import logging as log
@@ -324,6 +322,3 @@ def main(argc, argv):
         return 1
 
     return 0
-
-if __name__ == "__main__":
-    sys.exit(main(len(sys.argv), sys.argv))
