@@ -6,8 +6,12 @@ from srtime.exceptions import ProcessException,FilterInputException
 
 class Process:
     def __init__(self, options):
+        self._options = options
         # Create a list to store times in:
         self._times = []
+
+    def run(self):
+        options = self._options
 
         # Flush the system caches prior to executing the command:
         if options.flush_caches:

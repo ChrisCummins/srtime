@@ -48,8 +48,12 @@ class SRTime:
                      "Starting iteration. n = {2}."
                      .format(t_rem, t_exp, i + 1))
 
-            # Run the command:
-            times = Process(self._options).times()
+            # Create a process:
+            process = Process(self._options)
+            # Execute the process:
+            process.run()
+            # Gather results:
+            times = process.times()
             self._results.append(times)
 
             # Update the counters:
