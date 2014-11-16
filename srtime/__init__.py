@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import sys
 
 from srtime.argparse import ArgumentParser
-from srtime.exceptions import InvalidParameterException,ProcessException
+from srtime.exceptions import ProcessException
 from srtime.srtime import SRTime
 
 # Flush system caches on a Linux operating system. Note that this
@@ -43,6 +43,11 @@ def main(argc, argv):
         # Graph results:
         if args.graph:
             graph(results, args.command)
+    except ProcessException as err:
+        # If the process fails with a non-zero return code, then print
+        # the exception message and return the error code.
+        print(err)
+        return err._errcode
     except Exception as err:
         print(err)
         return 1
