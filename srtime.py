@@ -39,34 +39,58 @@ def flush_system_caches():
 
 class OptionParser(optparse.OptionParser):
     def __init__(self):
-        optparse.OptionParser.__init__(self)
+        optparse.OptionParser.__init__(self,
+                                       usage="Usage: %prog <command> [options]")
 
         # Allow overriding the default handlers:
         self.set_conflict_handler("resolve")
 
         # Define command line options:
         self.add_option("--version", action="callback",
-                        callback=version_and_quit)
+                        callback=version_and_quit,
+                        help="show version information and exit")
         self.add_option("-v", "--verbose", action="store_true",
-                        dest="verbose", default=False)
+                        dest="verbose", default=False,
+                        help="run verbosely")
         self.add_option("-i", "--input", action="store_true",
                         dest="input", default=False)
         self.add_option("-f", "--format", action="store", type="string",
-                        dest="fmt", default="min")
+                        dest="fmt", default="min",
+                        help=("set the output format. "
+                              "Valid options are: min,txt,csv,tsv "
+                              "[default: %default]"))
         self.add_option("-m", "--min-iterations", action="store", type="int",
-                        dest="min_iterations", default=5)
+                        dest="min_iterations", default=5,
+                        help=("set the minimum number of iterations "
+                              "to perform [default: %default]"))
         self.add_option("-t", "--target-time", action="store", type="int",
-                        dest="target_time", default=10)
+                        dest="target_time", default=10,
+                        help=("set the target duration of all iterations "
+                              "in seconds [default: %default]"))
         self.add_option("-N", "--threshold", action="store", type="int",
-                        dest="threshold", default=30)
+                        dest="threshold", default=30,
+                        help=("set the threshold number of iterations to "
+                              "switch between Gaussian and t-distributions "
+                              "for calculating confidence intervals "
+                              "[default: %default]"))
         self.add_option("-p", "--precision", action="store", type="int",
-                        dest="precision", default=3)
+                        dest="precision", default=3,
+                        help=("set the number of digits after a decimal point "
+                              "to round to when printing numbers "
+                              "[default: %default]"))
         self.add_option("-c", "--confidence", action="store", type="float",
-                        dest="confidence", default=0.05)
+                        dest="confidence", default=0.95,
+                        help=("set the confidence value for calculating "
+                              "confidence intervals, 0 < c < 1 "
+                              "[default: %default]"))
         self.add_option("-g", "--graph", action="store_true",
-                        dest="graph", default=False)
+                        dest="graph", default=False,
+                        help="display a graph of results")
         self.add_option("-F", "--flush-cache", action="store_true",
-                        dest="flush_caches", default=False)
+                        dest="flush_caches", default=False,
+                        help=("flush system caches before every iteration. "
+                              "Note this requires root privileges, and only "
+                              "supports Unix operating systems"))
 
 class Results:
     def __init__(self, options):
