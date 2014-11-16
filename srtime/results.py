@@ -79,9 +79,13 @@ class Results:
 
         if fmt.lower() == "min":
             confidence = self.confidence()
-            s = "{0} {1} {2}".format(self.fmt_n(confidence[0]),
-                                     self.fmt_n(self.mean()),
-                                     self.fmt_n(confidence[1]))
+            s = ("{c}% confidence values from {n} iterations:\n"
+                 .format(c=round(self._options.confidence * 100),
+                         n=self.n()))
+            s += ("{c1} {mean} {c2}"
+                  .format(c1=self.fmt_n(confidence[0]),
+                          mean=self.fmt_n(self.mean()),
+                          c2=self.fmt_n(confidence[1])))
         else:
             for t in results:
                 prop = t[0]
