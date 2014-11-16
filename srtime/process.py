@@ -28,7 +28,8 @@ class Process:
             raise ProcessException(options.command, process.exitstatus)
 
         # Return elapsed time:
-        self._time = end - start
+        elapsed = end - start
+        self._times = [elapsed.microseconds / 1000]
 
-    def time(self):
-        return self._time.microseconds / 1000
+    def times(self):
+        return self._times

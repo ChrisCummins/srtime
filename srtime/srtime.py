@@ -49,12 +49,12 @@ class SRTime:
                      .format(t_rem, t_exp, i + 1))
 
             # Run the command:
-            p = Process(self._options).time()
-            self._results.append(p)
+            times = Process(self._options).times()
+            self._results.append(times)
 
             # Update the counters:
-            elapsed_time += p
-            i += 1
+            elapsed_time += sum(times)
+            i += len(times)
             avg_p = self._results.mean()
 
     def results(self):

@@ -10,8 +10,11 @@ class Results:
         self._results = []
         self._options = options
 
-    def append(self, time):
-        self._results.append(time)
+    def append(self, data):
+        if isinstance(data, list):
+            self._results += data
+        else:
+            self._results.append(data)
 
     # Return the raw array of execution times:
     def times(self):
