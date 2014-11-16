@@ -1,7 +1,7 @@
 import logging as log
 
 from srtime.exceptions import InvalidParameterException
-from srtime.process import Process
+from srtime.process import TimedProcess,FilterProcess
 from srtime.results import Results
 
 class SRTime:
@@ -49,7 +49,11 @@ class SRTime:
                      .format(t_rem, t_exp, i + 1))
 
             # Create a process:
-            process = Process(self._options)
+            if self._options.filter:
+                process = FilterProcess(self._options)
+            else:
+                process = TimedProcess(self._options)
+
             # Execute the process:
             process.run()
             # Gather results:

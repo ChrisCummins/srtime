@@ -17,40 +17,68 @@ class Process:
         if options.flush_caches:
             flush_system_caches()
 
+        # Pre-execution hook:
+        self.pre_exec_hook()
+
         # Spawn the process:
-        start = datetime.now()
         process = pexpect.spawn(options.args, timeout=None)
 
         # Buffer the output line by line:
         for buf in process:
             # Decode the buffered output into a string.
             line = buf.decode('raw_unicode_escape').rstrip()
-
             # Print the line to stdout.
             print(line)
-
-            # If we're in filtering mode, then grab times from the
-            # output:
-            if options.filter:
-                try:
-                    self._times.append(float(line))
-                except ValueError:
-                    raise FilterInputException(line)
+            # Process line.
+            self.output_hook(line)
 
         # Wait until the process terminates:
         process.close()
-        end = datetime.now()
+        # Post-execution hook:
+        self.post_exec_hook()
 
         # Throw an exception if the process exited with non-zero
         # status:
         if process.exitstatus:
             raise ProcessException(options.command, process.exitstatus)
 
-        # If we're not in filtering mode, then record the elapsed
-        # time:
-        if not options.filter:
-            elapsed = end - start
-            self._times.append(elapsed.microseconds / 1000)
-
     def times(self):
         return self._times
+
+    # Pre-execution hook, called immediately before the process is
+    # spawned.
+    def pre_exec_hook(self):
+        pass
+
+    # Post-execution hook, called immediately after the process
+    # terminates.
+    def post_exec_hook(self):
+        pass
+
+    # Output hook, called for-each line of output buffered from the
+    # process.
+    def output_hook(self, line):
+        pass
+
+# A timed process uses a timer to derive the amount of time taken to
+# execute the process.
+class TimedProcess(Process):
+    # Record the starting time.
+    def pre_exec_hook(self):
+        self._start = datetime.now()
+
+    # Calculate the elapsed time and record it.
+    def post_exec_hook(self):
+        end = datetime.now()
+        elapsed = end - self._start
+        self._times.append(elapsed.microseconds / 1000)
+
+# A filter process is one which derives its execution times from the
+# output of the process.
+class FilterProcess(Process):
+    # Record the output as a result.
+    def output_hook(self, line):
+        try:
+            self._times.append(float(line))
+        except ValueError:
+            raise FilterInputException(line)
