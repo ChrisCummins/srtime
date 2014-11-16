@@ -21,3 +21,12 @@ class ProcessException(Exception):
     def __str__(self):
         return ("Process '{proc}' exited with non-zero status: {errcode}"
                 .format(proc=self._procname, errcode=self._errcode))
+
+# Exception thrown if the output of a process cannot be filtered.
+class FilterInputException(Exception):
+    def __init__(self, errline):
+        self._errline = errline
+
+    def __str__(self):
+        return ("Unable to process the program output. Caused by:\n\n{errline}"
+                .format(errline=self._errline))
