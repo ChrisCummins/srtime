@@ -20,8 +20,9 @@ class ArgumentParser(argparse.ArgumentParser):
         self.add_argument("-v", "--verbose", action="store_true",
                           dest="verbose", default=False,
                           help="run verbosely")
-        self.add_argument("-i", "--input", action="store_true",
-                          dest="input", default=False)
+        self.add_argument("-i", "--filter", action="store_true",
+                          dest="filter", default=False,
+                          help="filter execution times from process output")
         self.add_argument("-f", "--format", action="store",
                           dest="fmt", default="min", metavar="<f>",
                           help=("set the output format. "

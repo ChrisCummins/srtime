@@ -2,7 +2,7 @@ from datetime import datetime
 import logging as log
 import pexpect
 
-from srtime.exceptions import ProcessException
+from srtime.exceptions import ProcessException,FilterInputException
 
 class Process:
     def __init__(self, options):
@@ -24,6 +24,14 @@ class Process:
 
             # Print the line to stdout.
             print(line)
+
+            # If we're in filtering mode, then grab times from the
+            # output:
+            if options.filter:
+                try:
+                    self._times.append(float(line))
+                except ValueError:
+                    raise FilterInputException(line)
 
         # Wait until the process terminates:
         process.close()
