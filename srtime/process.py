@@ -2,6 +2,7 @@ from datetime import datetime
 import logging as log
 import pexpect
 
+from srtime.exceptions import ProcessException
 
 class Process:
     def __init__(self, options):
@@ -21,6 +22,10 @@ class Process:
         process.close()
         end = datetime.now()
 
+        # Throw an exception if the process exited with non-zero
+        # status:
+        if process.exitstatus:
+            raise ProcessException(options.command, process.exitstatus)
 
         # Return elapsed time:
         self._time = end - start

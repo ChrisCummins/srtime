@@ -2,7 +2,7 @@ import logging as log
 import matplotlib.pyplot as plt
 
 from srtime.argparse import ArgumentParser
-from srtime.exceptions import InvalidParameterException
+from srtime.exceptions import InvalidParameterException,ProcessException
 from srtime.srtime import SRTime
 
 # Flush system caches on a Linux operating system. Note that this
@@ -42,7 +42,7 @@ def main(argc, argv):
         # Graph results:
         if args.graph:
             graph(results, args.command)
-    except InvalidParameterException as err:
+    except (InvalidParameterException,ProcessException) as err:
         print(err)
         return 1
 
