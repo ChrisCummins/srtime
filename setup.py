@@ -9,4 +9,6 @@ setup(name='srtime',
       license='GPL v3',
       packages=['srtime'],
       scripts=['bin/srtime'],
+      test_suite='nose.collector',
+      tests_require=['nose'],
       zip_safe=False)
