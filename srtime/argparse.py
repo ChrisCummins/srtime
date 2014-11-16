@@ -5,9 +5,11 @@ __version__ = '.'.join(__version_info__)
 
 class ArgumentParser(argparse.ArgumentParser):
     def __init__(self):
-        argparse.ArgumentParser.__init__(self,
-                                         description=("A statistically rigorous "
-                                                      "program execution timer."))
+        argparse.ArgumentParser.__init__(
+            self,
+            description=("A statistically rigorous program execution timer."),
+            formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        )
 
         # Define command line arguments:
         self.add_argument("args", nargs="+",
@@ -23,32 +25,28 @@ class ArgumentParser(argparse.ArgumentParser):
         self.add_argument("-f", "--format", action="store",
                           dest="fmt", default="min",
                           help=("set the output format. "
-                                "Valid options are: min,txt,csv,tsv "
-                                "[default: %default]"))
+                                "Valid options are: min,txt,csv,tsv"))
         self.add_argument("-m", "--min-iterations", action="store", type=int,
                           dest="min_iterations", default=5,
                           help=("set the minimum number of iterations "
-                                "to perform [default: %default]"))
+                                "to perform"))
         self.add_argument("-t", "--target-time", action="store", type=int,
                           dest="target_time", default=10,
                           help=("set the target duration of all iterations "
-                                "in seconds [default: %default]"))
+                                "in seconds"))
         self.add_argument("-N", "--threshold", action="store", type=int,
                           dest="threshold", default=30,
                           help=("set the threshold number of iterations to "
                                 "switch between Gaussian and t-distributions "
-                                "for calculating confidence intervals "
-                                "[default: %default]"))
+                                "for calculating confidence intervals"))
         self.add_argument("-p", "--precision", action="store", type=int,
                           dest="precision", default=3,
                           help=("set the number of digits after a decimal point "
-                                "to round to when printing numbers "
-                                "[default: %default]"))
+                                "to round to when printing numbers"))
         self.add_argument("-c", "--confidence", action="store", type=float,
                           dest="confidence", default=0.95,
                           help=("set the confidence value for calculating "
-                                "confidence intervals, 0 < c < 1 "
-                                "[default: %default]"))
+                                "confidence intervals, 0 < c < 1"))
         self.add_argument("-g", "--graph", action="store_true",
                           dest="graph", default=False,
                           help="display a graph of results")
