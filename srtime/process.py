@@ -3,7 +3,8 @@ import logging as log
 import os
 
 class Process:
-    def _get_tmpfile(self):
+    @staticmethod
+    def _get_tmpfile():
         epoch = datetime.utcfromtimestamp(0)
         delta = datetime.now() - epoch
         timestamp = round(delta.total_seconds() * 1000)
