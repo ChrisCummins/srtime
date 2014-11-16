@@ -247,9 +247,6 @@ class SRTime:
         self.run()
 
     def run(self):
-        # Perform first trial run:
-        p = Process(self._command, self._options).time()
-
         # Counters:
         i, elapsed_time, avg_p = 0, 0, 0
 
