@@ -13,7 +13,7 @@ class ArgumentParser(argparse.ArgumentParser):
 
         # Define command line arguments:
         self.add_argument("args", nargs="+",
-                          help="The command to execute")
+                          help="the command to execute")
         self.add_argument("--version", action="version",
                           version=("%(prog)s version {version}"
                                    .format(version=__version__)))
@@ -23,28 +23,28 @@ class ArgumentParser(argparse.ArgumentParser):
         self.add_argument("-i", "--input", action="store_true",
                           dest="input", default=False)
         self.add_argument("-f", "--format", action="store",
-                          dest="fmt", default="min",
+                          dest="fmt", default="min", metavar="<f>",
                           help=("set the output format. "
                                 "Valid options are: min,txt,csv,tsv"))
         self.add_argument("-m", "--min-iterations", action="store", type=int,
-                          dest="min_iterations", default=5,
+                          dest="min_iterations", default=5, metavar="<n>",
                           help=("set the minimum number of iterations "
                                 "to perform"))
         self.add_argument("-t", "--target-time", action="store", type=int,
-                          dest="target_time", default=10,
+                          dest="target_time", default=10, metavar="<t>",
                           help=("set the target duration of all iterations "
                                 "in seconds"))
         self.add_argument("-N", "--threshold", action="store", type=int,
-                          dest="threshold", default=30,
+                          dest="threshold", default=30, metavar="<n>",
                           help=("set the threshold number of iterations to "
                                 "switch between Gaussian and t-distributions "
                                 "for calculating confidence intervals"))
         self.add_argument("-p", "--precision", action="store", type=int,
-                          dest="precision", default=3,
+                          dest="precision", default=3, metavar="<n>",
                           help=("set the number of digits after a decimal point "
                                 "to round to when printing numbers"))
         self.add_argument("-c", "--confidence", action="store", type=float,
-                          dest="confidence", default=0.95,
+                          dest="confidence", default=0.95, metavar="<c>",
                           help=("set the confidence value for calculating "
                                 "confidence intervals, 0 < c < 1"))
         self.add_argument("-g", "--graph", action="store_true",
