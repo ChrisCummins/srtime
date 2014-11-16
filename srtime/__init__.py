@@ -1,5 +1,5 @@
 import sys
-import optparse
+import argparse
 import logging as log
 import random
 import numpy as np
@@ -9,6 +9,9 @@ import math
 import os
 from datetime import datetime
 import matplotlib.pyplot as plt
+
+__version_info__ = ('0', '0', '1')
+__version__ = '.'.join(__version_info__)
 
 # Exception thrown for an invalid command line parameter value.
 class InvalidParameterException(Exception):
@@ -23,11 +26,6 @@ class InvalidParameterException(Exception):
             s += "\n{0}.".format(self._msg)
         return s
 
-def version_and_quit(*data):
-    print("srtime version 0.0.1")
-    print("Copyright (c) 2014 Chris Cummins")
-    sys.exit(0)
-
 # Flush system caches on a Linux operating system. Note that this
 # requires root privileges, which may result in a password prompt for
 # users which have not removed the prompts in their sudoers file.
@@ -35,62 +33,60 @@ def flush_system_caches():
     log.info("Flushing system caches")
     os.system('sudo sync && echo "echo 3 > /proc/sys/vm/drop_caches" | sudo sh')
 
-class OptionParser(optparse.OptionParser):
+class ArgumentParser(argparse.ArgumentParser):
     def __init__(self):
-        optparse.OptionParser.__init__(self,
-                                       description=("A statistically rigorous "
-                                                    "program execution timer."),
-                                       usage="Usage: %prog <command> [options]")
+        argparse.ArgumentParser.__init__(self,
+                                         description=("A statistically rigorous "
+                                                      "program execution timer."))
 
-        # Allow overriding the default handlers:
-        self.set_conflict_handler("resolve")
-
-        # Define command line options:
-        self.add_option("--version", action="callback",
-                        callback=version_and_quit,
-                        help="show version information and exit")
-        self.add_option("-v", "--verbose", action="store_true",
-                        dest="verbose", default=False,
-                        help="run verbosely")
-        self.add_option("-i", "--input", action="store_true",
-                        dest="input", default=False)
-        self.add_option("-f", "--format", action="store", type="string",
-                        dest="fmt", default="min",
-                        help=("set the output format. "
-                              "Valid options are: min,txt,csv,tsv "
-                              "[default: %default]"))
-        self.add_option("-m", "--min-iterations", action="store", type="int",
-                        dest="min_iterations", default=5,
-                        help=("set the minimum number of iterations "
-                              "to perform [default: %default]"))
-        self.add_option("-t", "--target-time", action="store", type="int",
-                        dest="target_time", default=10,
-                        help=("set the target duration of all iterations "
-                              "in seconds [default: %default]"))
-        self.add_option("-N", "--threshold", action="store", type="int",
-                        dest="threshold", default=30,
-                        help=("set the threshold number of iterations to "
-                              "switch between Gaussian and t-distributions "
-                              "for calculating confidence intervals "
-                              "[default: %default]"))
-        self.add_option("-p", "--precision", action="store", type="int",
-                        dest="precision", default=3,
-                        help=("set the number of digits after a decimal point "
-                              "to round to when printing numbers "
-                              "[default: %default]"))
-        self.add_option("-c", "--confidence", action="store", type="float",
-                        dest="confidence", default=0.95,
-                        help=("set the confidence value for calculating "
-                              "confidence intervals, 0 < c < 1 "
-                              "[default: %default]"))
-        self.add_option("-g", "--graph", action="store_true",
-                        dest="graph", default=False,
-                        help="display a graph of results")
-        self.add_option("-F", "--flush-cache", action="store_true",
-                        dest="flush_caches", default=False,
-                        help=("flush system caches before every iteration. "
-                              "Note this requires root privileges, and only "
-                              "supports Unix operating systems"))
+        # Define command line arguments:
+        self.add_argument("args", nargs="+",
+                          help="The command to execute")
+        self.add_argument("--version", action="version",
+                          version=("%(prog)s version {version}"
+                                   .format(version=__version__)))
+        self.add_argument("-v", "--verbose", action="store_true",
+                          dest="verbose", default=False,
+                          help="run verbosely")
+        self.add_argument("-i", "--input", action="store_true",
+                          dest="input", default=False)
+        self.add_argument("-f", "--format", action="store",
+                          dest="fmt", default="min",
+                          help=("set the output format. "
+                                "Valid options are: min,txt,csv,tsv "
+                                "[default: %default]"))
+        self.add_argument("-m", "--min-iterations", action="store", type=int,
+                          dest="min_iterations", default=5,
+                          help=("set the minimum number of iterations "
+                                "to perform [default: %default]"))
+        self.add_argument("-t", "--target-time", action="store", type=int,
+                          dest="target_time", default=10,
+                          help=("set the target duration of all iterations "
+                                "in seconds [default: %default]"))
+        self.add_argument("-N", "--threshold", action="store", type=int,
+                          dest="threshold", default=30,
+                          help=("set the threshold number of iterations to "
+                                "switch between Gaussian and t-distributions "
+                                "for calculating confidence intervals "
+                                "[default: %default]"))
+        self.add_argument("-p", "--precision", action="store", type=int,
+                          dest="precision", default=3,
+                          help=("set the number of digits after a decimal point "
+                                "to round to when printing numbers "
+                                "[default: %default]"))
+        self.add_argument("-c", "--confidence", action="store", type=float,
+                          dest="confidence", default=0.95,
+                          help=("set the confidence value for calculating "
+                                "confidence intervals, 0 < c < 1 "
+                                "[default: %default]"))
+        self.add_argument("-g", "--graph", action="store_true",
+                          dest="graph", default=False,
+                          help="display a graph of results")
+        self.add_argument("-F", "--flush-cache", action="store_true",
+                          dest="flush_caches", default=False,
+                          help=("flush system caches before every iteration. "
+                                "Note this requires root privileges, and only "
+                                "supports Unix operating systems"))
 
 class Results:
     def __init__(self, options):
@@ -226,8 +222,8 @@ class Process:
         return self._time.microseconds / 1000
 
 class SRTime:
-    def __init__(self, command, options):
-        self._command = command
+    def __init__(self, options):
+        self._command = options.args
         self._options = options
         self._results = Results(options)
 
@@ -300,24 +296,24 @@ def graph(results, command):
 
 def main(argc, argv):
     # Get arguments from command line:
-    parser = OptionParser()
-    (options, args) = parser.parse_args()
+    parser = ArgumentParser()
+    args = parser.parse_args()
 
     # Set program verbosity:
-    if options.verbose:
+    if args.verbose:
         log.basicConfig(format="%(message)s", level=log.DEBUG)
     else:
         log.basicConfig()
 
     try:
         # Run timer:
-        results = SRTime(args, options).results()
+        results = SRTime(args).results()
 
         # Print results:
-        print(results.fmt(options.fmt))
+        print(results.fmt(args.fmt))
 
         # Graph results:
-        if options.graph:
+        if args.graph:
             graph(results, args)
     except InvalidParameterException as err:
         print(err)
