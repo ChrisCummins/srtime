@@ -1,5 +1,6 @@
 import logging as log
 import matplotlib.pyplot as plt
+import sys
 
 from srtime.argparse import ArgumentParser
 from srtime.exceptions import InvalidParameterException,ProcessException
@@ -37,7 +38,7 @@ def main(argc, argv):
         results = SRTime(args).results()
 
         # Print results:
-        print(results.fmt(args.fmt))
+        print(results.fmt(args.fmt), file=sys.stderr)
 
         # Graph results:
         if args.graph:
