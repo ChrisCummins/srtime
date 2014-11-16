@@ -6,6 +6,9 @@ from srtime.exceptions import ProcessException
 
 class Process:
     def __init__(self, options):
+        # Create a list to store times in:
+        self._times = []
+
         # Flush the system caches prior to executing the command:
         if options.flush_caches:
             flush_system_caches()
@@ -27,9 +30,11 @@ class Process:
         if process.exitstatus:
             raise ProcessException(options.command, process.exitstatus)
 
-        # Return elapsed time:
-        elapsed = end - start
-        self._times = [elapsed.microseconds / 1000]
+        # If we're not in filtering mode, then record the elapsed
+        # time:
+        if not options.filter:
+            elapsed = end - start
+            self._times.append(elapsed.microseconds / 1000)
 
     def times(self):
         return self._times
