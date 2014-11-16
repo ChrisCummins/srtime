@@ -38,6 +38,8 @@ def flush_system_caches():
 class OptionParser(optparse.OptionParser):
     def __init__(self):
         optparse.OptionParser.__init__(self,
+                                       description=("A statistically rigorous "
+                                                    "program execution timer."),
                                        usage="Usage: %prog <command> [options]")
 
         # Allow overriding the default handlers:
