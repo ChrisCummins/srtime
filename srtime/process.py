@@ -17,9 +17,13 @@ class Process:
         start = datetime.now()
         process = pexpect.spawn(options.args, timeout=None)
 
-        # Buffer the output:
-        for line in process:
-            print(line.decode('raw_unicode_escape').rstrip())
+        # Buffer the output line by line:
+        for buf in process:
+            # Decode the buffered output into a string.
+            line = buf.decode('raw_unicode_escape').rstrip()
+
+            # Print the line to stdout.
+            print(line)
 
         # Wait until the process terminates:
         process.close()
