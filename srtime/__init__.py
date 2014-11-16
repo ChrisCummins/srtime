@@ -88,6 +88,20 @@ class ArgumentParser(argparse.ArgumentParser):
                                 "Note this requires root privileges, and only "
                                 "supports Unix operating systems"))
 
+    # We override the base parse_args() method so that we can inject
+    # additional data into the returning arguments namespace.
+    def parse_args(self):
+        args = super(ArgumentParser, self).parse_args()
+
+        # Add a string "command" which has a concatenated version of
+        # the args:
+        command = ""
+        for arg in args.args:
+            command += arg + " "
+        args.command = command[:-1]
+
+        return args
+
 class Results:
     def __init__(self, options):
         self._results = []
@@ -190,16 +204,10 @@ class Process:
         timestamp = round(delta.total_seconds() * 1000)
         return "/tmp/srtime-{0}".format(timestamp)
 
-    def _get_cmd(self, command):
-        cmd = ""
-        for c in command:
-            cmd += c + " "
-        return cmd
-
-    def __init__(self, command, options):
-        cmd = self._get_cmd(command)
+    def __init__(self, options):
+        cmd = options.command
         tmpfile = self._get_tmpfile()
-        cmd += "2>&1 | tee {0}".format(tmpfile)
+        cmd += " 2>&1 | tee {0}".format(tmpfile)
 
         log.info("Command: {0}".format(cmd))
 
@@ -223,7 +231,6 @@ class Process:
 
 class SRTime:
     def __init__(self, options):
-        self._command = options.args
         self._options = options
         self._results = Results(options)
 
@@ -267,7 +274,7 @@ class SRTime:
                      .format(t_rem, t_exp, i + 1))
 
             # Run the command:
-            p = Process(self._command, self._options).time()
+            p = Process(self._options).time()
             self._results.append(p)
 
             # Update the counters:
@@ -280,12 +287,8 @@ class SRTime:
 
 # Plot and show a graph of the results for the given command.
 def graph(results, command):
-    title = ""
-    for c in command:
-        title += c + " "
-
     plt.plot(range(1, results.n() + 1), results.times())
-    plt.suptitle(title, fontsize=16)
+    plt.suptitle(command, fontsize=16)
     plt.xlabel('Iteration')
     plt.ylabel('Execution time (ms)')
     plt.xlim(1, results.n())
@@ -311,7 +314,7 @@ def main(argc, argv):
 
         # Graph results:
         if args.graph:
-            graph(results, args)
+            graph(results, args.command)
     except InvalidParameterException as err:
         print(err)
         return 1
