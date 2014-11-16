@@ -13,6 +13,7 @@ setup(name='srtime',
       tests_require=['nose'],
       install_requires=[
           'matplotlib',
+          'numpy',
           'pexpect',
           'scipy'
       ],
