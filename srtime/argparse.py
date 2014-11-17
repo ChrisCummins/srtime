@@ -64,9 +64,6 @@ class ArgumentParser(argparse.ArgumentParser):
 
         # Add a string "command" which has a concatenated version of
         # the args:
-        command = ""
-        for arg in args.args:
-            command += arg + " "
-        args.command = command[:-1]
+        args.command = " ".join(args.args)
 
         return args
