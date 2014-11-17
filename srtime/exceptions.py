@@ -12,6 +12,7 @@ class InvalidParameterException(Exception):
             s += "\n{0}.".format(self._msg)
         return s
 
+
 # Exception thrown if a process exits with a non-zero status.
 class ProcessException(Exception):
     def __init__(self, procname, errcode):
@@ -21,6 +22,7 @@ class ProcessException(Exception):
     def __str__(self):
         return ("Process '{proc}' exited with non-zero status: {errcode}"
                 .format(proc=self._procname, errcode=self._errcode))
+
 
 # Exception thrown if the output of a process cannot be filtered.
 class FilterInputException(Exception):

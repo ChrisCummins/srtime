@@ -1,8 +1,9 @@
 import logging as log
 
 from srtime.exceptions import InvalidParameterException
-from srtime.process import TimedProcess,FilterProcess
+from srtime.process import TimedProcess, FilterProcess
 from srtime.results import Results
+
 
 class SRTime:
     def __init__(self, options):

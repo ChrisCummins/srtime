@@ -5,6 +5,7 @@ import scipy.stats
 
 from srtime.exceptions import InvalidParameterException
 
+
 class Results:
     def __init__(self, options):
         self._results = []

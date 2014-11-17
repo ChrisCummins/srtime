@@ -16,6 +16,7 @@ def graph(results, command):
     plt.xlim(1, results.n())
     plt.show()
 
+
 def main(argc, argv):
     # Get arguments from command line:
     parser = ArgumentParser()

@@ -71,6 +71,7 @@ class Process:
     def output_hook(self, line):
         pass
 
+
 # A timed process uses a timer to derive the amount of time taken to
 # execute the process.
 class TimedProcess(Process):
@@ -83,6 +84,7 @@ class TimedProcess(Process):
         end = datetime.now()
         elapsed = end - self._start
         self._times.append(elapsed.microseconds / 1000)
+
 
 # A filter process is one which derives its execution times from the
 # output of the process.

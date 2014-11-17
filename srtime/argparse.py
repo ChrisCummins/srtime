@@ -3,6 +3,7 @@ import argparse
 __version_info__ = ('0', '0', '1')
 __version__ = '.'.join(__version_info__)
 
+
 class ArgumentParser(argparse.ArgumentParser):
     def __init__(self):
         argparse.ArgumentParser.__init__(
@@ -42,8 +43,8 @@ class ArgumentParser(argparse.ArgumentParser):
                                 "for calculating confidence intervals"))
         self.add_argument("-p", "--precision", action="store", type=int,
                           dest="precision", default=3, metavar="<n>",
-                          help=("set the number of digits after a decimal point "
-                                "to round to when printing numbers"))
+                          help=("set the number of digits after a decimal "
+                                "point to round to when printing numbers"))
         self.add_argument("-c", "--confidence", action="store", type=float,
                           dest="confidence", default=0.95, metavar="<c>",
                           help=("set the confidence value for calculating "
