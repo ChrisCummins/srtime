@@ -33,7 +33,8 @@ def main(argc, argv):
         results = SRTime(args).results()
 
         # Print results:
-        print(results.fmt(args.fmt), file=sys.stderr)
+        sys.stderr.write(results.fmt(args.fmt) + "\n")
+        sys.stderr.flush()
 
         # Graph results:
         if args.graph:
