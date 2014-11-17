@@ -5,5 +5,29 @@ python:
   - "3.2"
   - "3.3"
   - "3.4"
-install: pip install .
-script: nosetests --with-coverage --cover-package=srtime
+
+before_install:
+  # Install Anaconda, which we will use to install scipy and other
+  # python dependencies:
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
+  - conda update --yes conda
+  # Fix a crash with multiprocessing on Travis and are not specific to
+  # using Miniconda:
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+
+install:
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION atlas numpy scipy matplotlib nose dateutil pandas statsmodels
+  # Coverage packages are on a binstar channel:
+  - conda install --yes -c dan_blanchard python-coveralls nose-cov
+  - pip install .
+
+script:
+  - nosetests --with-cov --cov srtime --cov-config .coveragerc --logging-level=INFO
+
+after_success:
+  # Create coverage report:
+  - coveralls --config_file .coveragerc
