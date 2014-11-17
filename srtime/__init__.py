@@ -4,7 +4,7 @@ import sys
 
 from srtime.argparse import ArgumentParser
 from srtime.exceptions import ProcessException
-from srtime.srtime import SRTime
+from srtime.srtime import Timer
 
 
 # Plot and show a graph of the results for the given command.
@@ -19,7 +19,7 @@ def graph(results, command):
 
 def run(options):
     # Run the timer and gather the results:
-    return SRTime(options).results()
+    return Timer(options).results()
 
 
 def main(argc, argv):
