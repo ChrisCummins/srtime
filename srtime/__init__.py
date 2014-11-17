@@ -2,7 +2,7 @@ import logging as log
 import matplotlib.pyplot as plt
 import sys
 
-from srtime.argparse import ArgumentParser
+from srtime.parser import ArgumentParser
 from srtime.exceptions import ProcessException
 from srtime.timer import Timer
 
