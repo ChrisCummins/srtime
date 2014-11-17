@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+#
+# example2.py - report the duration of a few time consuming tasks
+#
+import time
+import random
+
+for i in range(5):
+    delay = random.randint(20,30)
+    time.sleep(delay / 1000)
+    print(delay)

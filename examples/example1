@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+#
+# example1.py - wait for a short amount of time, then exit
+#
+import time
+import random
+
+delay = random.randint(45,55)
+time.sleep(delay / 1000)
