@@ -35,7 +35,7 @@ def main(argc, argv):
 
     try:
         # Run timer:
-        results = run(options)
+        results = run(args)
 
         # Print results:
         sys.stderr.write(results.fmt(args.fmt) + "\n")
