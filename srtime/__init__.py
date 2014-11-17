@@ -17,6 +17,11 @@ def graph(results, command):
     plt.show()
 
 
+def run(options):
+    # Run the timer and gather the results:
+    return SRTime(options).results()
+
+
 def main(argc, argv):
     # Get arguments from command line:
     parser = ArgumentParser()
@@ -30,7 +35,7 @@ def main(argc, argv):
 
     try:
         # Run timer:
-        results = SRTime(args).results()
+        results = run(options)
 
         # Print results:
         sys.stderr.write(results.fmt(args.fmt) + "\n")
