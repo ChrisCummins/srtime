@@ -10,7 +10,10 @@ setup(name='srtime',
       packages=['srtime'],
       scripts=['bin/srtime'],
       test_suite='nose.collector',
-      tests_require=['nose'],
+      tests_require=[
+          'coverage',
+          'nose'
+      ],
       install_requires=[
           'matplotlib',
           'numpy',
