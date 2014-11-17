@@ -1,8 +1,19 @@
 from datetime import datetime
 import logging as log
 import pexpect
+import os
 
-from srtime.exceptions import ProcessException,FilterInputException
+from srtime.exceptions import ProcessException, FilterInputException
+
+
+# Flush system caches on a Linux operating system. Note that this
+# requires root privileges, which may result in a password prompt for
+# users which have not removed the prompts in their sudoers file.
+def flush_system_caches():
+    log.info("Flushing system caches")
+    os.system('sudo sync && '
+              'echo "echo 3 > /proc/sys/vm/drop_caches" | sudo sh')
+
 
 class Process:
     def __init__(self, options):

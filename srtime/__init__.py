@@ -6,12 +6,6 @@ from srtime.argparse import ArgumentParser
 from srtime.exceptions import ProcessException
 from srtime.srtime import SRTime
 
-# Flush system caches on a Linux operating system. Note that this
-# requires root privileges, which may result in a password prompt for
-# users which have not removed the prompts in their sudoers file.
-def flush_system_caches():
-    log.info("Flushing system caches")
-    os.system('sudo sync && echo "echo 3 > /proc/sys/vm/drop_caches" | sudo sh')
 
 # Plot and show a graph of the results for the given command.
 def graph(results, command):
