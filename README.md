@@ -11,6 +11,20 @@ This is a timer for performing statistically rigorous performance
 evaluation. It executes a given program multiple times and reports the
 mean result, and lower and upper confidence values.
 
+## Features
+
+* Microsecond precision timing of programs.
+* If you only want to time a critical section from within your
+  program, this tool can record the execution times from the output of
+  the program itself.
+* Supports user-configurable confidence intervals, and output
+  precision and format.
+* Set the amount of time to collect results for (e.g. 60 seconds), or
+  the minimum number of iterations to perform (e.g. 100).
+* Supports flushing the host system caches before every invocation of
+  the target program.
+* Results can be displayed graphically using the `-g` flag.
+
 ## Example usage
 
 ```
@@ -24,6 +38,11 @@ $ srtime ./my_benchmark
 ```
 sudo python setup.py install
 ```
+
+## Requirements
+
+* python >= 2.6
+* python-setuptools
 
 ## Further Reading
 1. A. Georges, D. Buytaert, and L. Eeckhout,
