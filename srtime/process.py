@@ -32,7 +32,7 @@ class Process:
         self.pre_exec_hook()
 
         # Spawn the process:
-        process = pexpect.spawn(options.args, timeout=None)
+        process = pexpect.spawn(options.command, timeout=None)
 
         # Buffer the output line by line:
         for buf in process:
