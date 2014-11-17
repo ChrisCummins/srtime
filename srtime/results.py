@@ -3,6 +3,7 @@ import numpy as np
 import scipy as sp
 import scipy.stats
 
+import srtime
 from srtime.exceptions import InvalidParameterException
 
 
