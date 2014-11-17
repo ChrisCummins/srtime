@@ -25,6 +25,8 @@ mean result, and lower and upper confidence values.
   the target program.
 * Results can be displayed graphically using the `-g` flag.
 
+For a list of all of the program features, see `srtime --help`.
+
 ## Example usage
 
 ```
