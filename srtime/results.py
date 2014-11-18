@@ -1,7 +1,7 @@
-import math
 import numpy as np
 import scipy as sp
 import scipy.stats
+from math import sqrt
 
 import srtime
 from srtime.exceptions import InvalidParameterException
@@ -36,13 +36,13 @@ def variance(l):
 
 # Return the standard deviation of a list
 def stdev(l):
-    return math.sqrt(variance(l))
+    return sqrt(variance(l))
 
 
 # Return the confidence interval of a list for a given confidence
 def confinterval(l, c=0.95, n=30):
     if len(l) > 1:
-        scale = stdev(l) / math.sqrt(len(l))
+        scale = stdev(l) / sqrt(len(l))
 
         if len(l) >= n:
             # For large values of n, use a normal (Gaussian) distribution:
