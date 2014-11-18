@@ -60,7 +60,7 @@ class Timer:
             process.run()
             # Gather results:
             times = process.times()
-            self._results.append(times)
+            self._results += times
 
             # Update the counters:
             elapsed_time += sum(times)

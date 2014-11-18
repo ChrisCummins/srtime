@@ -9,11 +9,11 @@ from srtime.timer import Timer
 
 # Plot and show a graph of the results for the given command.
 def graph(results, command):
-    plt.plot(range(1, results.n() + 1), results.times())
+    plt.plot(range(1, len(results) + 1), results)
     plt.suptitle(command, fontsize=16)
     plt.xlabel('Iteration')
     plt.ylabel('Execution time (ms)')
-    plt.xlim(1, results.n())
+    plt.xlim(1, len(results))
     plt.show()
 
 
