@@ -1,4 +1,4 @@
-from unittest import TestCase
+from unittest import TestCase, main
 
 import srtime
 from srtime.stats import *
@@ -80,3 +80,6 @@ class TestStats(TestCase):
         l = [1, 2, 3]
         self.assertTrue(confinterval(l, n=1) ==
                         (0.86841426592382809, 3.1315857340761717))
+
+if __name__ == '__main__':
+    main()
