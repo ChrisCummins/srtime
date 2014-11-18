@@ -81,6 +81,14 @@ class Stats:
         def rnd(n, precision=precision):
             return round(n, precision)
 
+        def _raise_param_ex(fmt):
+            raise InvalidParameterException("format", fmt,
+                                            msg=("Valid formats are: "
+                                                 "min, txt, tsv, csv"))
+
+        if not isinstance(fmt, str):
+            _raise_param_ex(fmt)
+
         s = ""
 
         if fmt.lower() == "min":
@@ -103,7 +111,5 @@ class Stats:
                 elif fmt.lower() == "csv":
                     s += '"{0}",{1}\n'.format(prop, val)
                 else:
-                    raise InvalidParameterException("format", fmt,
-                                                    msg=("Valid formats are: "
-                                                         "min, txt, tsv, csv"))
+                    _raise_param_ex(fmt)
         return s
