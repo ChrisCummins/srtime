@@ -3,7 +3,7 @@ import logging as log
 import srtime
 from srtime.exceptions import InvalidParameterException
 from srtime.process import TimedProcess, FilterProcess
-from srtime.results import Results
+from srtime.results import Results, mean
 
 
 class Timer:
@@ -65,7 +65,7 @@ class Timer:
             # Update the counters:
             elapsed_time += sum(times)
             i += len(times)
-            avg_p = self._results.mean()
+            avg_p = mean(self._results)
 
     def results(self):
         return self._results
