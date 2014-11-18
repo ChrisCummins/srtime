@@ -56,42 +56,45 @@ def confinterval(l, c=0.95, n=30):
         return 0, 0
 
 
-class Results(list):
-    def __init__(self, options):
-        self._options = options
+class Stats:
+    def __init__(self, l, confidence=0.95, threshold=30):
+        cfint = confinterval(l, confidence, threshold)
 
-    def results(self):
-        cfint = confinterval(self, self._options.confidence,
-                             self._options.threshold)
-        return [("mean", mean(self)),
-                ("c1", cfint[0]),
-                ("c2", cfint[1]),
-                ("minimum", min(self)),
-                ("maximum", max(self)),
-                ("range", range(self)),
-                ("variance", variance(self)),
-                ("n", len(self))]
+        # Ordered attribute pairs:
+        self._attrs = [("mean", mean(l)),
+                       ("c1", cfint[0]),
+                       ("c2", cfint[1]),
+                       ("confidence", confidence),
+                       ("threshold", threshold),
+                       ("min", min(l)),
+                       ("max", max(l)),
+                       ("range", range(l)),
+                       ("variance", variance(l)),
+                       ("n", len(l))]
 
-    def fmt_n(self, n):
-        return round(n, self._options.precision)
+        # Create class attributes from ordered attribute pairs:
+        for pair in self._attrs:
+            setattr(self, pair[0], pair[1])
 
-    def fmt(self, fmt):
-        s, results = "", self.results()
+    # Return a formatted string:
+    def format(self, fmt, precision=2):
+        def rnd(n, precision=precision):
+            return round(n, precision)
+
+        s = ""
 
         if fmt.lower() == "min":
-            cfint = confinterval(self, self._options.confidence,
-                                 self._options.threshold)
             s = ("{c}% confidence values from {n} iterations:\n"
-                 .format(c=round(self._options.confidence * 100),
-                         n=len(self)))
+                 .format(c=round(self.confidence * 100),
+                         n=self.n))
             s += ("{c1} {mean} {c2}"
-                  .format(c1=self.fmt_n(cfint[0]),
-                          mean=self.fmt_n(mean(self)),
-                          c2=self.fmt_n(cfint[1])))
+                  .format(c1=rnd(self.c1),
+                          mean=rnd(self.mean),
+                          c2=rnd(self.c2)))
         else:
-            for t in results:
-                prop = t[0]
-                val = self.fmt_n(t[1])
+            for stat in self._attrs:
+                prop = stat[0]
+                val = rnd(stat[1])
 
                 if fmt.lower() == "txt":
                     s += "{0}: {1}\n".format(prop, val)
@@ -103,5 +106,4 @@ class Results(list):
                     raise InvalidParameterException("format", fmt,
                                                     msg=("Valid formats are: "
                                                          "min, txt, tsv, csv"))
-
         return s

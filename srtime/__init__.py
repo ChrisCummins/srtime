@@ -5,6 +5,7 @@ import sys
 from srtime.parser import ArgumentParser
 from srtime.exceptions import ProcessException
 from srtime.timer import Timer
+from srtime.results import Stats
 
 
 # Plot and show a graph of the results for the given command.
@@ -36,9 +37,11 @@ def main(argc, argv):
     try:
         # Run timer:
         results = run(args)
+        stats = Stats(results, confidence=args.confidence,
+                      threshold=args.threshold)
 
         # Print results:
-        sys.stderr.write(results.fmt(args.fmt) + "\n")
+        sys.stderr.write(stats.format(args.fmt, precision=args.precision))
         sys.stderr.flush()
 
         # Graph results:

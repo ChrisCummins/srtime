@@ -3,13 +3,13 @@ import logging as log
 import srtime
 from srtime.exceptions import InvalidParameterException
 from srtime.process import TimedProcess, FilterProcess
-from srtime.results import Results, mean
+from srtime.results import mean
 
 
 class Timer:
     def __init__(self, options):
         self._options = options
-        self._results = Results(options)
+        self._results = []
 
         # Check that options are valid:
         if (options.confidence >= 1 or options.confidence <= 0):
