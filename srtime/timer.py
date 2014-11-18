@@ -3,7 +3,7 @@ import logging as log
 import srtime
 from srtime.exceptions import InvalidParameterException
 from srtime.process import TimedProcess, FilterProcess
-from srtime.results import mean
+from srtime.stats import mean
 
 
 class Timer:

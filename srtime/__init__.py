@@ -5,7 +5,7 @@ import sys
 from srtime.parser import ArgumentParser
 from srtime.exceptions import ProcessException
 from srtime.timer import Timer
-from srtime.results import Stats
+from srtime.stats import Stats
 
 
 # Plot and show a graph of the results for the given command.

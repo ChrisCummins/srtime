@@ -1,9 +1,9 @@
 from unittest import TestCase
 
 import srtime
-from srtime.results import *
+from srtime.stats import *
 
-class TestResults(TestCase):
+class TestStats(TestCase):
 
     # mean() tests
     def test_mean_empty_list(self):
