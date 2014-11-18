@@ -41,7 +41,7 @@ def main(argc, argv):
                       threshold=args.threshold)
 
         # Print results:
-        sys.stderr.write(stats.format(args.fmt, precision=args.precision))
+        sys.stderr.write(stats.format(fmt=args.fmt, precision=args.precision))
         sys.stderr.flush()
 
         # Graph results:

@@ -77,7 +77,7 @@ class Stats:
             setattr(self, pair[0], pair[1])
 
     # Return a formatted string:
-    def format(self, fmt, precision=2):
+    def format(self, fmt="min", precision=2):
         def rnd(n, precision=precision):
             return round(n, precision)
 
