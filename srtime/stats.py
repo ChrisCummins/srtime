@@ -93,7 +93,7 @@ class Stats:
 
         if fmt.lower() == "min":
             s = ("{c}% confidence values from {n} iterations:\n"
-                 .format(c=round(self.confidence * 100),
+                 .format(c=int(self.confidence * 100),
                          n=self.n))
             s += ("{c1} {mean} {c2}\n"
                   .format(c1=rnd(self.c1),
