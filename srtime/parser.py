@@ -60,8 +60,8 @@ class ArgumentParser(argparse.ArgumentParser):
 
     # We override the base parse_args() method so that we can inject
     # additional data into the returning arguments namespace.
-    def parse_args(self):
-        args = super(ArgumentParser, self).parse_args()
+    def parse_args(self, args=None, namespace=None):
+        args = super(ArgumentParser, self).parse_args(args, namespace)
 
         # Add a string "command" which has a concatenated version of
         # the args:
