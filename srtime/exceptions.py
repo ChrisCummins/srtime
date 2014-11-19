@@ -32,3 +32,6 @@ class FilterInputException(Exception):
     def __str__(self):
         return ("Unable to process the program output. Caused by:\n\n{errline}"
                 .format(errline=self._errline))
+
+# Exception thrown by an error parsing arguments.
+class ArgumentParserException(Exception): pass

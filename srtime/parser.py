@@ -1,5 +1,7 @@
 import argparse
 
+from srtime.exceptions import ArgumentParserException
+
 __version_info__ = ('0', '0', '1')
 __version__ = '.'.join(__version_info__)
 
@@ -57,6 +59,14 @@ class ArgumentParser(argparse.ArgumentParser):
                           help=("flush system caches before every iteration. "
                                 "Note this requires root privileges, and only "
                                 "supports Unix operating systems"))
+
+    # Errors which are caused in the parse_args() method will call
+    # self.error(), which by default prints an error message and kills
+    # the process. We don't want this to happen. Let's instead raise
+    # an exception and let the calling code decide what it wants to do
+    # with it.
+    def error(self, message):
+        raise ArgumentParserException(message)
 
     # We override the base parse_args() method so that we can inject
     # additional data into the returning arguments namespace.

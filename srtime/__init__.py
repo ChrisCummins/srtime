@@ -25,16 +25,16 @@ def run(options):
 
 def main():
     # Get arguments from command line:
-    parser = ArgumentParser()
-    args = parser.parse_args()
-
-    # Set program verbosity:
-    if args.verbose:
-        log.basicConfig(format="%(message)s", level=log.DEBUG)
-    else:
-        log.basicConfig()
-
     try:
+        parser = ArgumentParser()
+        args = parser.parse_args()
+
+        # Set program verbosity:
+        if args.verbose:
+            log.basicConfig(format="%(message)s", level=log.DEBUG)
+        else:
+            log.basicConfig()
+
         # Run timer:
         results = run(args)
         stats = Stats(results, confidence=args.confidence,
