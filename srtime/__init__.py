@@ -23,7 +23,7 @@ def run(options):
     return Timer(options).results()
 
 
-def main(argc, argv):
+def main():
     # Get arguments from command line:
     parser = ArgumentParser()
     args = parser.parse_args()

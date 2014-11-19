@@ -4,4 +4,4 @@ import srtime
 import sys
 
 if __name__ == "__main__":
-    sys.exit(srtime.main(len(sys.argv), sys.argv))
+    sys.exit(srtime.main())
