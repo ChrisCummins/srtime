@@ -22,12 +22,13 @@ def run(options):
     # Run the timer and gather the results:
     return Timer(options).results()
 
-
-def main():
+# If no "args" are supplied, they will be taken from the process
+# environment.
+def main(args=None):
     # Get arguments from command line:
     try:
         parser = ArgumentParser()
-        args = parser.parse_args()
+        args = parser.parse_args(args)
 
         # Set program verbosity:
         if args.verbose:
