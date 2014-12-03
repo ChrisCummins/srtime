@@ -1,4 +1,5 @@
 import logging as log
+from datetime import datetime
 
 import srtime
 from srtime.exceptions import InvalidParameterException
@@ -42,6 +43,7 @@ class Timer:
         # Keep running the command while there is time left, or until
         # we have executed the minimum number of iterations:
         while elapsed_time < target_time - avg_p or i < min_iterations:
+            start_time = datetime.now()
 
             # Logging:
             t_exp = round(avg_p / 1000, 2)
@@ -63,9 +65,9 @@ class Timer:
             self._results += times
 
             # Update the counters:
-            elapsed_time += sum(times)
             i += len(times)
             avg_p = mean(self._results)
+            elapsed_time += (datetime.now() - start_time).microseconds / 1000
 
     def results(self):
         return self._results
