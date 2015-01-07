@@ -46,8 +46,8 @@ sudo python setup.py install
 
 ## Contribute
 
-Source Code: http://github.com/ChrisCummins/srtime
-Issue Tracker: https://github.com/ChrisCummins/srtime/issues
+* Source Code: http://github.com/ChrisCummins/srtime
+* Issue Tracker: https://github.com/ChrisCummins/srtime/issues
 
 Patches welcome!
 
