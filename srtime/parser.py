@@ -77,4 +77,7 @@ class ArgumentParser(argparse.ArgumentParser):
         # the args:
         args.command = " ".join(args.args)
 
+        # Add a "quiet" option which defaults to off.
+        args.quiet = False
+
         return args
