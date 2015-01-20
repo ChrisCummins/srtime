@@ -39,8 +39,9 @@ class Process:
         for buf in process:
             # Decode the buffered output into a string.
             line = buf.decode('raw_unicode_escape').rstrip()
-            # Print the line to stdout.
-            print(line)
+            # Print the line to stdout if not "quiet".
+            if not options.quiet:
+                print(line)
             # Process line.
             self.output_hook(line)
 
