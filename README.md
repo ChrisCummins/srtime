@@ -21,7 +21,7 @@ $ srtime ./my_benchmark
 
 ## Features
 
-* Microsecond precision timing of programs.
+* Millisecond precision timing of programs.
 * User defined amount of time to collect results for (e.g. 60
   seconds), or a minimum number of iterations to perform (e.g. 100).
 * Results can be displayed graphically using the `-g` flag.

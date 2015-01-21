@@ -85,7 +85,7 @@ class TimedProcess(Process):
     def post_exec_hook(self):
         end = time()
         elapsed = end - self._start
-        self._times.append(elapsed * 1000)
+        self._times.append(elapsed)
 
 
 # A filter process is one which derives its execution times from the
