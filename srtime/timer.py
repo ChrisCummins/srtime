@@ -47,7 +47,7 @@ class Timer:
 
             # Logging:
             t_exp = round(avg_p / 1000, 2)
-            t_rem = round(target_time - elapsed_time, 1)
+            t_rem = max(round(target_time - elapsed_time, 1), 0)
             log.info("Time remaining: {0}s. Average execution time: {1}s. "
                      "Starting iteration. n = {2}."
                      .format(t_rem, t_exp, i + 1))
