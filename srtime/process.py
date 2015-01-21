@@ -1,4 +1,4 @@
-from datetime import datetime
+from time import time
 import logging as log
 import pexpect
 import os
@@ -79,13 +79,13 @@ class Process:
 class TimedProcess(Process):
     # Record the starting time.
     def pre_exec_hook(self):
-        self._start = datetime.now()
+        self._start = time()
 
     # Calculate the elapsed time and record it.
     def post_exec_hook(self):
-        end = datetime.now()
+        end = time()
         elapsed = end - self._start
-        self._times.append(elapsed.microseconds / 1000)
+        self._times.append(elapsed * 1000)
 
 
 # A filter process is one which derives its execution times from the
