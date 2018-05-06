@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 
-import srtime
 import sys
 
+import srtime
+
 if __name__ == "__main__":
-    sys.exit(srtime.main())
+  sys.exit(srtime.main())

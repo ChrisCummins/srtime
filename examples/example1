@@ -2,8 +2,8 @@
 #
 # example1.py - wait for a short amount of time, then exit
 #
-import time
 import random
+import time
 
-delay = random.randint(45,55)
+delay = random.randint(45, 55)
 time.sleep(delay / 1000)
