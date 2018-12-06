@@ -1,6 +1,6 @@
+import logging as log
 from time import time
 
-import logging as log
 from srtime.exceptions import InvalidParameterException
 from srtime.process import FilterProcess, TimedProcess
 from srtime.stats import mean

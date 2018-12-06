@@ -1,5 +1,6 @@
 from setuptools import setup
 
+
 setup(name='srtime',
       version='0.0.2',
       description='A statistically rigorous program execution timer',

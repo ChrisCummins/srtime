@@ -1,5 +1,6 @@
-from srtime.process import Process
 from unittest import TestCase, main
+
+from srtime.process import Process
 
 
 class TestProcess(TestCase):

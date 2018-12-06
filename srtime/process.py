@@ -1,7 +1,7 @@
+import logging as log
 import os
 from time import time
 
-import logging as log
 import pexpect
 from srtime.exceptions import FilterInputException, ProcessException
 

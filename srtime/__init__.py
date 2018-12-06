@@ -1,6 +1,6 @@
+import logging as log
 import sys
 
-import logging as log
 import matplotlib.pyplot as plt
 from srtime.exceptions import ProcessException
 from srtime.parser import ArgumentParser

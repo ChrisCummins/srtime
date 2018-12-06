@@ -1,6 +1,7 @@
+from unittest import TestCase, main
+
 from srtime.exceptions import *
 from srtime.stats import *
-from unittest import TestCase, main
 
 
 class TestStats(TestCase):

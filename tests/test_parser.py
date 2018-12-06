@@ -1,6 +1,7 @@
+from unittest import TestCase, main
+
 from srtime.exceptions import *
 from srtime.parser import *
-from unittest import TestCase, main
 
 
 class TestProcess(TestCase):
